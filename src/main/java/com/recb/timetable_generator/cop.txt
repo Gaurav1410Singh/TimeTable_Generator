@@ -1,0 +1,222 @@
+package com.recb.timetable_generator;
+
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+// import org.slf4j.Logger;
+// import org.slf4j.LoggerFactory;
+
+import com.recb.core.Lesson;
+import com.recb.core.Room;
+import com.recb.core.Teacher;
+import com.recb.core.TimeTable;
+import com.recb.core.Timeslot;
+
+public class TimetableGeneratorApplication {
+
+        // private static final Logger LOGGER = LoggerFactory.getLogger(TimetableGeneratorApplication.class);
+
+    public static void main(String[] args) {
+
+        TimeTable solution = TimeTable.generate(generateDemoData());
+        // Visualize the solution
+        printTimetable(solution);
+    }
+
+    public static TimeTable generateDemoData() {
+        List<Teacher> teachers = List.of(
+    new Teacher("Mr. Vivek Jaiswal", "VKJ", "I.T.", true),
+    new Teacher("Prof. Neelendra Badal", "NB", "I.T.", true),
+    new Teacher("Ms. Khushboo Roy", "KR", "I.T.", false),
+    new Teacher("Mr. Pushp Maheshwari", "PM", "I.T.", false),
+    new Teacher("Dr. Ishan Bhardwaj", "IB", "I.T.", false),
+    new Teacher("Mr. Prabhat Kumar", "PBT", "I.T.", false),
+    new Teacher("Mr. Santosh Kumar", "SK", "I.T.", false)
+);
+
+
+List<Timeslot> timeslots = List.of(
+        // Monday Timeslots
+        new Timeslot(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(10, 0)),
+        new Timeslot(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(11, 0)),
+        new Timeslot(DayOfWeek.MONDAY, LocalTime.of(11, 0), LocalTime.of(12, 0)),
+        new Timeslot(DayOfWeek.MONDAY, LocalTime.of(12, 0), LocalTime.of(1, 0)),
+        new Timeslot(DayOfWeek.MONDAY, LocalTime.of(2, 0), LocalTime.of(3, 0)),
+        new Timeslot(DayOfWeek.MONDAY, LocalTime.of(3, 0), LocalTime.of(4, 0)),
+        new Timeslot(DayOfWeek.MONDAY, LocalTime.of(4, 0), LocalTime.of(5, 0)),
+        // tuesday
+        new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(9, 0), LocalTime.of(10, 0)),
+        new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(10, 0), LocalTime.of(11, 0)),
+        new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(11, 0), LocalTime.of(12, 0)),
+        new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(12, 0), LocalTime.of(1, 0)),
+        new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(2, 0), LocalTime.of(3, 0)),
+        new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(3, 0), LocalTime.of(4, 0)),
+        new Timeslot(DayOfWeek.TUESDAY, LocalTime.of(4, 0), LocalTime.of(5, 0)),
+        //wenesday
+        new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(9, 0), LocalTime.of(10, 0)),
+        new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(10, 0), LocalTime.of(11, 0)),
+        new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(11, 0), LocalTime.of(12, 0)),
+        new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(12, 0), LocalTime.of(1, 0)),
+        new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(2, 0), LocalTime.of(3, 0)),
+        new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(3, 0), LocalTime.of(4, 0)),
+        new Timeslot(DayOfWeek.WEDNESDAY, LocalTime.of(4, 0), LocalTime.of(5, 0)),
+
+        new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(9, 0), LocalTime.of(10, 0)),
+        new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(10, 0), LocalTime.of(11, 0)),
+        new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(11, 0), LocalTime.of(12, 0)),
+        new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(12, 0), LocalTime.of(1, 0)),
+        new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(2, 0), LocalTime.of(3, 0)),
+        new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(3, 0), LocalTime.of(4, 0)),
+        new Timeslot(DayOfWeek.THURSDAY, LocalTime.of(4, 0), LocalTime.of(5, 0)),
+
+        new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(9, 0), LocalTime.of(10, 0)),
+        new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(10, 0), LocalTime.of(11, 0)),
+        new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(11, 0), LocalTime.of(12, 0)),
+        new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(12, 0), LocalTime.of(1, 0)),
+        new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(2, 0), LocalTime.of(3, 0)),
+        new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(3, 0), LocalTime.of(4, 0)),
+        new Timeslot(DayOfWeek.FRIDAY, LocalTime.of(4, 0), LocalTime.of(5, 0)),
+
+        new Timeslot(DayOfWeek.SATURDAY, LocalTime.of(9, 0), LocalTime.of(10, 0)),
+        new Timeslot(DayOfWeek.SATURDAY, LocalTime.of(10, 0), LocalTime.of(11, 0)),
+        new Timeslot(DayOfWeek.SATURDAY, LocalTime.of(11, 0), LocalTime.of(12, 0)),
+        new Timeslot(DayOfWeek.SATURDAY, LocalTime.of(12, 0), LocalTime.of(1, 0)),
+        new Timeslot(DayOfWeek.SATURDAY, LocalTime.of(2, 0), LocalTime.of(3, 0)),
+        new Timeslot(DayOfWeek.SATURDAY, LocalTime.of(3, 0), LocalTime.of(4, 0)),
+        new Timeslot(DayOfWeek.SATURDAY, LocalTime.of(4, 0), LocalTime.of(5, 0))
+    );
+    
+
+    List<Room> rooms = List.of(
+    new Room("208", "Lecture Hall", "I.T."),
+    new Room("248", "Lab", "I.T."),
+    new Room("249", "Lab", "I.T.")
+);
+
+    
+
+List<Lesson> initialLessons = List.of(
+    // I.T. Branch, 3rd Year, Semester V
+    new Lesson(1L, "Database Management System", false, 4, teachers.get(0), "I.T.-Sem5"),
+    new Lesson(2L, "Web Technology", false, 4, teachers.get(1), "I.T.-Sem5"),
+    new Lesson(3L, "Design and Analysis of Algorithms", false, 4, teachers.get(2), "I.T.-Sem5"),
+    new Lesson(4L, "Compiler Design", false, 3, teachers.get(3), "I.T.-Sem5"),
+    new Lesson(5L, "Image Processing", false, 3, teachers.get(4), "I.T.-Sem5"),
+    new Lesson(6L, "Constitution of India", false, 2, teachers.get(5), "I.T.-Sem5"),
+    
+    // Labs
+    new Lesson(7L, "Database Management System Lab", true, 2, teachers.get(0), "I.T.-Sem5", List.of()),
+    new Lesson(8L, "Web Technology Lab", true, 2, teachers.get(1), "I.T.-Sem5", List.of()),
+    new Lesson(9L, "Design and Analysis of Algorithms Lab", true, 2, teachers.get(2), "I.T.-Sem5", List.of()),
+    new Lesson(10L, "Mini Project/Internship Assessment", true, 1, teachers.get(6), "I.T.-Sem5", List.of())
+);
+
+    
+    List<Lesson> lessons = new ArrayList<>(initialLessons);
+
+    long idCounter = 100; // Start IDs for expanded lessons to avoid duplicates
+    for (Lesson originalLesson : initialLessons) {
+        for (int i = 0; i < originalLesson.getLecturesPerWeek(); i++) {
+            lessons.add(new Lesson(
+                idCounter++, // Unique ID for each instance
+                originalLesson.getSubject(),
+                originalLesson.isPractical(),
+                1, // Each instance represents a single occurrence
+                originalLesson.getPrimaryTeacher(),
+                originalLesson.getStudentGroup(),
+                originalLesson.getPotentialSecondaryTeachers() 
+            ));
+        }
+    }
+        return new TimeTable(timeslots, rooms, lessons, teachers);
+    }
+
+
+
+    private static void printTimetable(TimeTable timeTable) {
+        // Column width for alignment
+        int columnWidth = 20;
+    
+    
+        // Header
+        System.out.println("Rajkiya Engineering College, Bijnor");
+        System.out.println("CLASS TIME-TABLE ODD SEM 2024-25");
+        System.out.println(String.format("Course: B.Tech Branch: IT Year: III Semester: V Room No: %s", "208"));
+        System.out.println();
+    
+        // Days and Time slots
+        String[] timeSlots = {"9:00-10:00", "10:00-11:00", "11:00-12:00", "12:00-1:00", "2:00-3:00", "3:00-4:00", "4:00-5:00"};
+        String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+    
+        // Fetch lessons and group them by timeslots
+        List<Room> roomList = timeTable.getRoomList();
+        List<Lesson> lessonList = timeTable.getLessonList();
+        Map<Timeslot, Map<Room, List<Lesson>>> lessonMap = lessonList.stream()
+                .filter(lesson -> lesson.getTimeslot() != null && lesson.getRoom() != null)
+                .collect(Collectors.groupingBy(Lesson::getTimeslot, Collectors.groupingBy(Lesson::getRoom)));
+    
+        // Print table header
+        System.out.print("Day/Time      | ");
+        for (String slot : timeSlots) {
+            System.out.print(formatCell(slot) + "| ");
+        }
+        System.out.println();
+        System.out.println("-".repeat((timeSlots.length + 1) * (columnWidth + 3)));
+    
+        // Iterate over days
+        for (String day : days) {
+            System.out.print(formatCell(day) + "| ");
+    
+            // Iterate over timeslots
+            for (String slot : timeSlots) {
+                // Find matching timeslot for the day and time
+                Timeslot currentTimeslot = timeTable.getTimeslotList().stream()
+                        .filter(ts -> ts.getDayOfWeek().toString().equalsIgnoreCase(day)
+                                && ts.getStartTime().toString().equals(slot.split("-")[0]))
+                        .findFirst().orElse(null);
+    
+                if (currentTimeslot == null) {
+                    System.out.print(formatCell("") + "| ");
+                    continue;
+                }
+    
+                // Get lessons for this timeslot
+                List<Lesson> lessons = roomList.stream()
+                        .map(room -> {
+                            Map<Room, List<Lesson>> byRoomMap = lessonMap.get(currentTimeslot);
+                            if (byRoomMap == null) return Collections.<Lesson>emptyList();
+                            return byRoomMap.getOrDefault(room, Collections.emptyList());
+                        })
+                        .flatMap(Collection::stream)
+                        .collect(Collectors.toList());
+    
+                // Format lesson info: Subject Code + Teacher Nickname + Room No
+                String lessonInfo = lessons.stream()
+                        .map(lesson -> String.format("%s %s %s",
+                                lesson.getSubject(),
+                                lesson.getPrimaryTeacher().getNickname(),
+                                lesson.getRoom().getRoomNo()))
+                        .collect(Collectors.joining(", "));
+    
+                System.out.print(formatCell(lessonInfo) + "| ");
+            }
+    
+            System.out.println();
+        }
+    
+        System.out.println("\nNote: Lunch Break from 1:00 PM to 2:00 PM.");
+        System.out.println("Mentor meeting: 3:00 PM - 4:00 PM on Wednesday.");
+    }
+    
+    private static String formatCell(String content) {
+        int columnWidth = 20;
+    return String.format("%-" + columnWidth + "s", content);
+}
+
+}

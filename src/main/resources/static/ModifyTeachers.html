@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modify Teacher Details</title>
+    <link rel="stylesheet" href="css/StyleHomePage.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* General Styling */
+      body {
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f9f9f9;
+      }
+
+      .container {
+        width: 80%;
+        margin: 20px auto;
+      }
+
+      h1,
+      h2 {
+        color: #333;
+      }
+
+      .form-section,
+      .table-section {
+        background: #fff;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 20px;
+      }
+
+      label {
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      input[type="text"],
+      select {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+
+      button {
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #007bff;
+        color: white;
+      }
+
+      .action-buttons button {
+        margin-right: 5px;
+      }
+
+      /* Update Dialog Styling */
+      .dialog {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+      }
+
+      .dialog-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- Header -->
+  <header class="header">
+    <div class="logo">
+     <!-- <div><img src="logo.png" alt="REC Bijnor Logo"></div> -->
+       <h1 style="color: white;">Rajkiya Engineering College Bijnor</h1> 
+    </div>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="index.html#features">Features</a>
+      <a href="index.html#team">Team</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </header>
+
+    <div class="container">
+      <h1>Modify Teacher Details</h1>
+
+      <!-- Form Section -->
+      <div class="form-section">
+        <h2>Add Teacher</h2>
+        <div class="form-group">
+          <label for="teacherName">Name:</label>
+          <input
+            type="text"
+            id="teacherName"
+            placeholder="Enter teacher's name"
+          />
+        </div>
+        <div class="form-group">
+          <label for="teacherNickname">Nickname:</label>
+          <input
+            type="text"
+            id="teacherNickname"
+            placeholder="Enter nickname"
+          />
+        </div>
+        <div class="form-group">
+          <label for="teacherDepartment">Department:</label>
+          <select id="teacherDepartment">
+            <option value="I. T.">I.T.</option>
+            <option value="E.E.">E.E.</option>
+            <option value="C.E.">C.E.</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="teacherFreeFourth" /> Needs Free Fourth
+            Lecture
+          </label>
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="teacherSecondary" /> Is Secondary Teacher
+          </label>
+        </div>
+        <button id="saveButton">Save</button>
+      </div>
+
+      <!-- Table Section -->
+      <div class="table-section">
+        <h2>Teacher List</h2>
+        <table>
+          <thead>
+            <tr>
+              <!-- <th>ID</th> -->
+              <th>Name</th>
+              <th>Nickname</th>
+              <th>Department</th>
+              <th>Needs Free Fourth</th>
+              <th>Secondary</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="teacherTableBody"></tbody>
+        </table>
+      </div>
+
+      <!-- Update Dialog -->
+      <div class="dialog-overlay" id="dialogOverlay"></div>
+      <div class="dialog" id="updateDialog">
+        <h2>Update Teacher</h2>
+        <div class="form-group">
+          <label for="updateTeacherName">Name:</label>
+          <input type="text" id="updateTeacherName" />
+        </div>
+        <div class="form-group">
+          <label for="updateTeacherNickname">Nickname:</label>
+          <input type="text" id="updateTeacherNickname" />
+        </div>
+        <div class="form-group">
+          <label for="updateTeacherDepartment">Department:</label>
+          <select id="updateTeacherDepartment">
+            <option value="I. T.">I.T.</option>
+            <option value="E.E.">E.E.</option>
+            <option value="C.E.">C.E.</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="updateTeacherFreeFourth" /> Needs Free
+            Fourth Lecture
+          </label>
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="updateTeacherSecondary" /> Is Secondary
+            Teacher
+          </label>
+        </div>
+        <button id="updateButton">Update</button>
+        <button id="cancelButton">Cancel</button>
+      </div>
+    </div>
+
+     <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2024 Rajkiya Engineering College Bijnor. All Rights Reserved.</p>
+    <p>Email: contact@recbijnor.ac.in | Phone: +91-1234567890</p>
+  </footer>
+
+    <script src="js/ModifyTeacher.js"></script>
+  </body>
+</html>

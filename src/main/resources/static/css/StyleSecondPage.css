@@ -1,0 +1,78 @@
+/* General Styling */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  a {
+    text-decoration: none;
+  }
+  
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #222326;
+    color: #fff;
+  }
+  
+  .header .logo h1 {
+    font-size: 40px;
+    margin-left: 60px;
+  }
+  
+  .nav a {
+    margin: 0 10px;
+    color: #fff;
+    font-weight: 600;
+  }
+  
+  .nav a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Manage Section */
+  .manage-section {
+    text-align: center;
+    padding: 100px 20px;
+    background-color: #f8f8f8;
+  }
+  
+  .manage-section h2 {
+    font-size: 36px;
+    margin-bottom: 10px;
+    color: #004aad;
+  }
+  
+  .manage-section p {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  
+  .buttons .btn-primary {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #004aad;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 16px;
+    margin: 10px;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-primary:hover {
+    background-color: #003580;
+  }
+  
+  /* Footer */
+  .footer {
+    padding: 20px;
+    background: #333;
+    color: #fff;
+    text-align: center;
+  }
+  

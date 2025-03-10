@@ -1,0 +1,180 @@
+/* General Styling */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* img {
+  max-width: 100%;
+  height: auto;
+} */
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #222326;
+  color: #fff;
+}
+
+.header .logo h1 {
+  margin-left: 60px;
+  font-size: 40px;
+}
+
+.nav a {
+  margin: 0 10px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(rgba(60, 98, 235, 0.977), rgba(255, 255, 255, 0.975)), url('campus.jpg') center/cover no-repeat;
+  color: #fff;
+  padding: 100px 20px;
+  text-align: center;
+}
+
+.hero h2 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.buttons .btn-primary,
+.buttons .btn-secondary {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  margin: 5px;
+}
+
+.btn-primary {
+  background-color: #fff;
+  color: #004aad;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+}
+/*College Photo*/
+.CollegePhoto { 
+  text-align: center; 
+  
+} 
+
+.responsive-image { 
+  width: 100%; 
+  height: auto; 
+  display: block; 
+  margin: 0 auto; 
+}
+
+/* Features Section */
+.features {
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.features h3 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.feature-item {
+  padding: 20px;
+  background: #f4f4f4;
+  border-radius: 10px;
+}
+
+.feature-item h4 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+/* Team Section */
+.team {
+  padding: 50px 20px;
+  background: #f8f8f8;
+}
+
+.team h3 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  text-align: center;
+}
+
+.team-member img {
+  border-radius: 50%;
+}
+
+.team-member h4 {
+  margin: 10px 0 5px;
+}
+
+
+.team-grid {
+  display: flex;
+  justify-content: center;
+  gap: 200px;
+  flex-wrap: wrap;
+}
+
+.team-member {
+  text-align: center;
+}
+
+.team-member img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+  transition: transform 0.3s;
+}
+
+.team-member img:hover {
+  transform: scale(1.1);
+}
+
+
+
+/* Footer */
+.footer {
+  padding: 20px;
+  background: #333;
+  color: #fff;
+  text-align: center;
+}

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modify Room Details</title>
+  <link rel="stylesheet" href="css/StyleHomePage.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    /* Add your CSS here from the previous code */
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .modify-room-form {
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #f4f4f4;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    h3 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 20px;
+      }
+
+      label {
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      input[type="text"],
+      select {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+
+    button {
+      padding: 10px 15px;
+      background-color: #004aad;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #003a8c;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #004aad;
+      color: white;
+    }
+
+    .action-buttons button {
+      margin-right: 5px;
+    }
+
+    .dialog {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+    }
+
+    .dialog-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+     <!-- <div><img src="logo.png" alt="REC Bijnor Logo"></div> -->
+       <h1>Rajkiya Engineering College Bijnor</h1> 
+    </div>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="index.html#features">Features</a>
+      <a href="index.html#team">Team</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </header>
+
+  <div class="modify-room-form">
+    <h3>Modify Room Details</h3>
+    <div class="form-group">
+      <label for="roomNo">Room Number:</label>
+      <input type="text" id="roomNo" placeholder="Enter Room Number">
+    </div>
+    <div class="form-group">
+      <label for="type">Room Type:</label>
+      <select id="type">
+        <option>Computer Lab</option>
+        <option>Chemistry Lab</option>
+        <option>Physics Lab</option>
+        <option>Electrical Lab</option>
+        <option>Civil Lab</option>
+        <option>Lecture Hall</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="department">Department:</label>
+      <select id="department">
+        <option>I.T.</option>
+        <option>E.E.</option>
+        <option>C.E.</option>
+      </select>
+    </div>
+    <button id="saveButton">Save Room Data</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Room Number</th>
+        <th>Type</th>
+        <th>Department</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="roomTableBody">
+      <!-- Rows will be dynamically added here -->
+    </tbody>
+  </table>
+
+  <!-- Dialog Box -->
+  <div class="dialog-overlay" id="dialogOverlay"></div>
+  <div class="dialog" id="updateDialog">
+    <h3>Update Room Details</h3>
+    <div class="form-group">
+      <label for="updateType">Room Type:</label>
+      <select id="updateType">
+        <option>Computer Lab</option>
+        <option>Chemistry Lab</option>
+        <option>Physics Lab</option>
+        <option>Electrical Lab</option>
+        <option>Civil Lab</option>
+        <option>Lecture Hall</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="updateDepartment">Department:</label>
+      <select id="updateDepartment">
+        <option>I.T.</option>
+        <option>E.E.</option>
+        <option>C.E.</option>
+      </select>
+    </div>
+    <button id="updateButton">Update</button>
+    <button id="cancelButton">Cancel</button>
+  </div>
+
+   <!-- Footer -->
+   <footer class="footer">
+    <p>&copy; 2024 Rajkiya Engineering College Bijnor. All Rights Reserved.</p>
+    <p>Email: contact@recbijnor.ac.in | Phone: +91-1234567890</p>
+  </footer>
+
+  <script>
+    const apiUrl = "http://localhost:8080/timetable/rooms";
+
+    const roomTableBody = document.getElementById("roomTableBody");
+    const saveButton = document.getElementById("saveButton");
+
+    const updateDialog = document.getElementById("updateDialog");
+    const dialogOverlay = document.getElementById("dialogOverlay");
+    const updateButton = document.getElementById("updateButton");
+    const cancelButton = document.getElementById("cancelButton");
+
+    let currentRoomId = null;
+
+    // Save Room Data
+    saveButton.addEventListener("click", async () => {
+      const roomNo = document.getElementById("roomNo").value;
+      const type = document.getElementById("type").value;
+      const department = document.getElementById("department").value;
+
+      const roomData = { roomNo: parseInt(roomNo), type, department };
+
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(roomData),
+      });
+
+      if (response.ok) {
+        alert("Room data saved successfully!");
+        loadRooms();
+      }
+    });
+
+    // Load Rooms into Table
+    async function loadRooms() {
+      const response = await fetch(apiUrl);
+      const rooms = await response.json();
+
+      roomTableBody.innerHTML = "";
+
+      rooms.forEach((room) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${room.roomNo}</td>
+          <td>${room.type}</td>
+          <td>${room.department}</td>
+          <td class="action-buttons">
+            <button onclick="deleteRoom(${room.roomNo})">Delete</button>
+            <button onclick="openUpdateDialog(${room.roomNo})">Update</button>
+          </td>
+        `;
+        roomTableBody.appendChild(row);
+      });
+    }
+
+    // Delete Room
+    async function deleteRoom(roomNo) {
+      const response = await fetch(`${apiUrl}/${roomNo}`, { method: "DELETE" });
+
+      if (response.ok) {
+        alert("Room deleted successfully!");
+        loadRooms();
+      }
+    }
+
+    // Open Update Dialog
+    function openUpdateDialog(roomNo) {
+      currentRoomId = roomNo;
+      dialogOverlay.style.display = "block";
+      updateDialog.style.display = "block";
+    }
+
+    // Close Update Dialog
+    cancelButton.addEventListener("click", () => {
+      dialogOverlay.style.display = "none";
+      updateDialog.style.display = "none";
+    });
+
+    // Update Room Data
+    updateButton.addEventListener("click", async () => {
+      const type = document.getElementById("updateType").value;
+      const department = document.getElementById("updateDepartment").value;
+
+      const updatedData = { roomNo: currentRoomId, type, department };
+
+      const response = await fetch(apiUrl, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedData),
+      });
+
+      if (response.ok) {
+        alert("Room updated successfully!");
+        dialogOverlay.style.display = "none";
+        updateDialog.style.display = "none";
+        loadRooms();
+      }
+    });
+
+    // Load rooms on page load
+    loadRooms();
+  </script>
+</body>
+</html>
